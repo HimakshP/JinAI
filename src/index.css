@@ -65,5 +65,27 @@
 }
 
 .jin-heading {
-  @apply bg-gradient-to-r from-jingold-light via-jingold to-jingold-dark bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-jingold-light via-jingold to-jingold-dark bg-clip-text text-transparent font-rajdhani text-4xl font-bold;
+}
+
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }

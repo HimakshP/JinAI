@@ -10,37 +10,37 @@ const games = [
     id: 1,
     title: "GTA V",
     description: "Challenge your knowledge of Los Santos and prove you're the ultimate GTA expert.",
-    image: "/images/gtav.jpg"
+    image: "/gtav.jpg"
   },
   {
     id: 2,
     title: "God of War",
     description: "Test your expertise in Norse mythology and Kratos' epic journey.",
-    image: "/images/gow.jpg"
+    image: "/gow.jpg"
   },
   {
     id: 3,
     title: "Need for Speed",
     description: "Race through questions about cars, tracks, and legendary moments.",
-    image: "/images/nfs.jpg"
+    image: "/nfs.jpg"
   },
   {
     id: 4,
     title: "Ghost of Tsushima",
     description: "Prove your mastery of samurai lore and feudal Japanese history.",
-    image: "/images/got.jpg"
+    image: "/got.jpg"
   },
   {
     id: 5,
     title: "Call of Duty",
     description: "Test your tactical knowledge and CoD series expertise.",
-    image: "/images/cod.jpg"
+    image: "/cod.jpg"
   },
   {
     id: 6,
     title: "Minecraft",
     description: "Challenge your crafting knowledge and survival skills.",
-    image: "/images/minecraft.jpg"
+    image: "/minecraft.jpg"
   }
 ];
 
@@ -80,11 +80,12 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <h2 className="text-6xl font-bold mb-6 jin-heading">
-                Game Quiz Arena
+              <h2 className="text-20xl font-bold mb-10 jin-heading">
+                !The Ultimate Game Quiz Arena!
               </h2>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Test your gaming knowledge and win rewards in our AI-powered quiz battles
+              <p className="text-4xl text-gray-300 max-w-2xl mx-auto">
+                Are you ready to Flex the Gamer inside you!!? 
+                Accept the challenges below if you got the Mettle!!
               </p>
             </motion.div>
           </div>

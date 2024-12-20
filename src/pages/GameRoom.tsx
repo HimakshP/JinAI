@@ -4,6 +4,9 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 
+// Define betOptions array at the top of the file, outside the component
+const betOptions = [50, 100, 200, 500];
+
 interface Player {
   address: string;
   ready: boolean;

@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';  // Add this import
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useGameState } from '@/hooks/useGameState';
+import BotpressKeyInput from '@/components/BotpressKeyInput';
 
-const betOptions = [50, 100, 200, 500];  // Moved this outside the component to resolve previous error
+const betOptions = [50, 100, 200, 500];
 
 interface Player {
   address: string;
@@ -22,6 +23,7 @@ const GameRoom = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
   const [showContinueButton, setShowContinueButton] = useState(false);
+  const [hasApiKey, setHasApiKey] = useState(!!localStorage.getItem('BOTPRESS_API_KEY'));
 
   useEffect(() => {
     // Simulate players joining
@@ -43,6 +45,10 @@ const GameRoom = () => {
     setGameStarted(true);
     setShowContinueButton(false);
   };
+
+  if (!hasApiKey) {
+    return <BotpressKeyInput onKeySet={() => setHasApiKey(true)} />;
+  }
 
   if (gameState.showResults) {
     return (

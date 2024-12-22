@@ -1,10 +1,11 @@
+import { useState, useEffect } from 'react';  // Add this import
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useGameState } from '@/hooks/useGameState';
 
-const betOptions = [50, 100, 200, 500];
+const betOptions = [50, 100, 200, 500];  // Moved this outside the component to resolve previous error
 
 interface Player {
   address: string;

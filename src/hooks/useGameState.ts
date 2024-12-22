@@ -17,25 +17,38 @@ export const useGameState = (gameId: string) => {
   useEffect(() => {
     const loadQuestions = async () => {
       try {
+        console.log('Fetching questions for gameId:', gameId); // Debug log
         const questions = await fetchBotpressQuestions(gameId);
+        console.log('Fetched questions:', questions); // Debug log
+        
+        if (questions.length === 0) {
+          toast({
+            title: "Error",
+            description: "No questions received from Botpress. Please check your API key and try again.",
+            variant: "destructive",
+          });
+          return;
+        }
+
         setGameState(prev => ({ ...prev, questions }));
       } catch (error) {
+        console.error('Error in loadQuestions:', error);
         toast({
           title: "Error",
-          description: "Failed to load questions. Please try again.",
+          description: "Failed to load questions. Please check your API key and try again.",
           variant: "destructive",
         });
       }
     };
 
-    if (gameId === '6') { // Minecraft game ID
+    if (gameId) {
       loadQuestions();
     }
-  }, [gameId]);
+  }, [gameId, toast]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (gameState.timeLeft > 0 && !gameState.showResults) {
+    if (gameState.timeLeft > 0 && !gameState.showResults && gameState.questions.length > 0) {
       timer = setInterval(() => {
         setGameState(prev => {
           if (prev.timeLeft <= 1) {
@@ -47,7 +60,7 @@ export const useGameState = (gameId: string) => {
       }, 1000);
     }
     return () => clearInterval(timer);
-  }, [gameState.timeLeft, gameState.showResults]);
+  }, [gameState.timeLeft, gameState.showResults, gameState.questions.length]);
 
   const handleNextQuestion = () => {
     setGameState(prev => {
@@ -63,9 +76,14 @@ export const useGameState = (gameId: string) => {
   };
 
   const handleAnswer = async (answerIndex: number) => {
+    if (gameState.questions.length === 0) return;
+
     try {
+      const currentQuestion = gameState.questions[gameState.currentQuestionIndex];
+      console.log('Submitting answer for question:', currentQuestion); // Debug log
+      
       const result = await submitAnswerToBotpress(
-        gameState.questions[gameState.currentQuestionIndex].text,
+        currentQuestion.text,
         answerIndex
       );
 
@@ -76,6 +94,7 @@ export const useGameState = (gameId: string) => {
 
       handleNextQuestion();
     } catch (error) {
+      console.error('Error in handleAnswer:', error);
       toast({
         title: "Error",
         description: "Failed to submit answer. Please try again.",

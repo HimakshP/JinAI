@@ -1,3 +1,5 @@
+import { Question } from '@/types/game';
+
 const BOTPRESS_URL = 'https://api.botpress.cloud/v1';
 
 export const fetchBotpressQuestions = async (gameId: string): Promise<Question[]> => {
@@ -19,14 +21,18 @@ export const fetchBotpressQuestions = async (gameId: string): Promise<Question[]
     }
 
     const data = await response.json();
+    console.log('Botpress response:', data); // Debug log
     
-    // Transform Botpress response to match our Question interface
-    // Assuming the response contains an array of questions
-    return data.responses.map((item: any) => ({
-      text: item.text,
-      options: item.choices || [],
-      correctAnswer: item.correctIndex || 0,
-    }));
+    // Transform the response to match our Question interface
+    if (data.responses && Array.isArray(data.responses)) {
+      return data.responses.map((item: any) => ({
+        text: item.text || '',
+        options: item.choices || ['Yes', 'No', 'Maybe', 'Not sure'],
+        correctAnswer: item.correctIndex || 0,
+      }));
+    }
+    
+    return [];
   } catch (error) {
     console.error('Error fetching Botpress questions:', error);
     throw error;
@@ -57,9 +63,12 @@ export const submitAnswerToBotpress = async (
     }
 
     const data = await response.json();
+    console.log('Answer submission response:', data); // Debug log
+
+    // Simulate points based on correct answers since Botpress might not return points directly
     return {
       isCorrect: data.isCorrect || false,
-      points: data.points || 0
+      points: data.isCorrect ? 10 : 0
     };
   } catch (error) {
     console.error('Error submitting answer to Botpress:', error);

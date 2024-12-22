@@ -23,7 +23,9 @@ const GameRoom = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [gameStarted, setGameStarted] = useState(false);
   const [showContinueButton, setShowContinueButton] = useState(false);
-  const [hasApiKey, setHasApiKey] = useState(!!localStorage.getItem('BOTPRESS_API_KEY'));
+  const [hasCredentials, setHasCredentials] = useState(
+    !!localStorage.getItem('BOTPRESS_API_KEY') && !!localStorage.getItem('BOTPRESS_BOT_ID')
+  );
 
   useEffect(() => {
     // Simulate players joining
@@ -46,8 +48,8 @@ const GameRoom = () => {
     setShowContinueButton(false);
   };
 
-  if (!hasApiKey) {
-    return <BotpressKeyInput onKeySet={() => setHasApiKey(true)} />;
+  if (!hasCredentials) {
+    return <BotpressKeyInput onKeySet={() => setHasCredentials(true)} />;
   }
 
   if (gameState.showResults) {

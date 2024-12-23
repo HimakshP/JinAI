@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 
 export const FloatingIcons = () => {
   const icons = [
-    { src: "/gtav.jpg", delay: 0 },
-    { src: "/gow.jpg", delay: 1 },
-    { src: "/nfs.jpg", delay: 2 },
-    { src: "/got.jpg", delay: 3 },
-    { src: "/cod.jpg", delay: 4 },
-    { src: "/minecraft.jpg", delay: 5 },
+    { src: "/gtavr.jpg", delay: 0 },
+    { src: "/gowr.jpg", delay: 1 },
+    { src: "/nfsr.jpg", delay: 2 },
+    { src: "/gotr.jpg", delay: 3 },
+    { src: "/codr.jpg", delay: 4 },
+    { src: "/minecraftr.jpg", delay: 5 },
   ];
 
   const getRandomPosition = (index: number) => {

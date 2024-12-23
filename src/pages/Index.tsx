@@ -1,57 +1,75 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { GameCard } from '@/components/GameCard';
-import { ConnectWallet } from '@/components/ConnectWallet';
-import { FloatingIcons } from '@/components/FloatingIcons';
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { GameCard } from '@/components/GameCard'
+import { ConnectWallet } from '@/components/ConnectWallet'
+import { FloatingIcons } from '@/components/FloatingIcons'
+import ComingSoon from '@/pages/ComingSoon'
+import { useNavigate } from 'react-router-dom'
 
 const games = [
   {
     id: 1,
     title: "GTA V",
     description: "Challenge your knowledge of Los Santos and prove you're the ultimate GTA expert.",
-    image: "/gtav.jpg"
+    image: "/gtavr.jpg",
+    isAvailable: true
   },
   {
     id: 2,
     title: "God of War",
     description: "Test your expertise in Norse mythology and Kratos' epic journey.",
-    image: "/gow.jpg"
+    image: "/gowr.jpg",
+    isAvailable: false
   },
   {
     id: 3,
     title: "Need for Speed",
     description: "Race through questions about cars, tracks, and legendary moments.",
-    image: "/nfs.jpg"
+    image: "/nfsr.jpg",
+    isAvailable: false
   },
   {
     id: 4,
     title: "Ghost of Tsushima",
     description: "Prove your mastery of samurai lore and feudal Japanese history.",
-    image: "/got.jpg"
+    image: "/gotr.jpg",
+    isAvailable: false
   },
   {
     id: 5,
     title: "Call of Duty",
     description: "Test your tactical knowledge and CoD series expertise.",
-    image: "/cod.jpg"
+    image: "/codr.jpg",
+    isAvailable: false
   },
   {
     id: 6,
     title: "Minecraft",
     description: "Challenge your crafting knowledge and survival skills.",
-    image: "/minecraft.jpg"
+    image: "/minecraftr.jpg",
+    isAvailable: false
   }
-];
+]
 
 const Index = () => {
+  const [selectedGame, setSelectedGame] = useState<number | null>(null)
   const navigate = useNavigate();
-  const [selectedGame, setSelectedGame] = useState<number | null>(null);
+  const [showComingSoon, setShowComingSoon] = useState(false)
+  const [comingSoonTitle, setComingSoonTitle] = useState("")
 
   const handleGameSelect = (gameId: number) => {
-    setSelectedGame(gameId);
-    navigate(`/game/${gameId}`);
-  };
+    const game = games.find(g => g.id === gameId)
+    if (game) {
+      if (game.isAvailable) {
+        setSelectedGame(gameId)
+        // Navigate to the game room or start the game
+        navigate(`/game/${gameId}`)
+      } else {
+        setComingSoonTitle(game.title)
+        setShowComingSoon(true)
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen bg-jinblack text-white relative overflow-hidden">
@@ -81,11 +99,11 @@ const Index = () => {
               transition={{ delay: 0.5 }}
             >
               <h2 className="text-20xl font-bold mb-10 jin-heading">
-                THE ULTIMATE GAMING 
+                THE ULTIMATE GAMING EXPERIENCE
               </h2>
               <p className="text-4xl text-gray-300 max-w-2xl mx-auto">
-                Are you ready to Flex the Gamer inside you!!? 
-                Accept the challenges below if you got the Mettle!!
+                You know what I ain't gonna tell you sh*t.
+                Try it yourself!
               </p>
             </motion.div>
           </div>
@@ -114,8 +132,14 @@ const Index = () => {
           </div>
         </section>
       </main>
-    </div>
-  );
-};
 
-export default Index;
+      <ComingSoon
+        isOpen={showComingSoon}
+        onClose={() => setShowComingSoon(false)}
+        gameTitle={comingSoonTitle}
+      />
+    </div>
+  )
+}
+
+export default Index

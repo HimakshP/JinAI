@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { WalletContextProvider } from "./components/WalletProvider";
 import Index from "./pages/Index";
 import GameRoom from "./pages/GameRoom";
+import ComingSoon from './pages/ComingSoon';
+import { Container, Header, MessageList, Composer, ComposerInput, ComposerButton, WebchatProvider } from '@botpress/webchat';
 
 const queryClient = new QueryClient();
 

@@ -51,7 +51,7 @@ export default function Page() {
     <div className="min-h-screen bg-grey flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Solana Pay Integration</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">Solana Pay</CardTitle>
           <CardDescription className="text-center">Scan the QR code to make a payment</CardDescription>
         </CardHeader>
         <CardContent>

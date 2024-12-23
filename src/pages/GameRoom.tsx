@@ -50,10 +50,10 @@ const GameRoom = () => {
   useEffect(() => {
     // Simulate players joining
     const mockPlayers = [
-      { address: '0x1234...5678', ready: true, score: 0 },
-      { address: '0x8765...4321', ready: true, score: 0 },
-      { address: '0x9876...5432', ready: true, score: 0 },
-      { address: '0x5432...8765', ready: true, score: 0 },
+      { address: 'DUDeMYmrSztkLVfmN5gGkGA6cacPvZ8xYyDJw3DmQR83', ready: true, score: 0 },
+      { address: 'GkiKqSVfnU2y4TeUW7up2JS9Z8g1yjGYJ8x2QNf4K6Y', ready: true, score: 0 },
+      { address: 'B9N2mNXjmhMdMiWj8W2TyLqwf1RtC5uQXWi6qEuYBjXC', ready: true, score: 0 },
+      { address: 'F866Kc1Fs323QaNV3ji6brzPTRyRvV7ZwLFFhSK6T2N2', ready: true, score: 0 },
     ];
     
     setTimeout(() => {

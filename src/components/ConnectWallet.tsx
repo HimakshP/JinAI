@@ -1,25 +1,38 @@
-import { useState } from 'react';
+"use client"
 import { motion } from 'framer-motion';
-import { Wallet } from 'lucide-react';
-
+import { WalletButton } from '@/components/WalletButton';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { toast } from 'sonner';
 export const ConnectWallet = () => {
-  const [isConnected, setIsConnected] = useState(false);
-
-  const handleConnect = () => {
-    setIsConnected(!isConnected);
+  const { connected, disconnect } = useWallet();
+  const handleDisconnect = async () => {
+    try {
+      await disconnect();
+      toast.success('Wallet disconnected successfully');
+    } catch (error) {
+      console.error('Failed to disconnect wallet:', error);
+      toast.error('Failed to disconnect wallet');
+    }
   };
-
   return (
-    <motion.button
-      className="btn-connect"
-      onClick={handleConnect}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <span className="flex items-center gap-2">
-        <Wallet className="w-5 h-5" />
-        {isConnected ? 'Connected' : 'Connect Wallet'}
-      </span>
-    </motion.button>
+    <div className="flex flex-col items-center gap-2">
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <WalletButton />
+      </motion.div>
+      
+      {connected && (
+        <motion.button
+          className="text-sm text-gray-500 hover:text-gray-700"
+          onClick={handleDisconnect}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+        </motion.button>
+      )}
+    </div>
   );
 };
+export default ConnectWallet;

@@ -81,7 +81,7 @@ const Index = () => {
               transition={{ delay: 0.5 }}
             >
               <h2 className="text-20xl font-bold mb-10 jin-heading">
-                !The Ultimate Game Quiz Arena!
+                THE ULTIMATE GAMING 
               </h2>
               <p className="text-4xl text-gray-300 max-w-2xl mx-auto">
                 Are you ready to Flex the Gamer inside you!!? 

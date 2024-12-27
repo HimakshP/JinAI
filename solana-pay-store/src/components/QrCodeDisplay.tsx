@@ -35,6 +35,7 @@ export default function QRCodeDisplay({ recipient, amount, reference }: QRCodeDi
     generateQRCode();
   }, [recipient, amount, reference]);
 
-  return <div ref={qrRef} className="mx-auto my-8 bg-white p-4 rounded-lg shadow-lg"></div>;
+  return <div ref={qrRef} className="mx-auto my-8 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 p-4 rounded-lg shadow-lg flex justify-center items-center"></div>;
+
 }
 

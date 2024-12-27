@@ -51,8 +51,8 @@ export default function Page() {
     <div className="min-h-screen bg-grey flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">Solana Pay</CardTitle>
-          <CardDescription className="text-center">Scan the QR code to make a payment</CardDescription>
+          <CardTitle className="mx-auto my-8 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 p-4 rounded-lg shadow-lg flex justify-center items-center">Solana Pay</CardTitle>
+          <CardDescription className="text-center text-xl">Scan the QR code to make the payment</CardDescription>
         </CardHeader>
         <CardContent>
           {reference && <QRCodeDisplay recipient={recipient} amount={amount} reference={reference} />}

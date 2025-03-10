@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { auth } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { LoginModal } from './LoginModal';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginButton: React.FC = () => {
   const [user] = useAuthState(auth);
-  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -26,17 +26,12 @@ export const LoginButton: React.FC = () => {
         </button>
       ) : (
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => navigate('/login')}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
         >
           Login
         </button>
       )}
-
-      <LoginModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-      />
     </>
   );
 }; 

@@ -98,50 +98,52 @@ const Index = () => {
         </div>
       </nav>
 
-      <main className="pt-24">
-        <section className="min-h-screen relative">
-          <FloatingIcons />
-          
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <h2 className="text-20xl font-bold mb-10 jin-heading">
-                THE ULTIMATE GAMING EXPERIENCE
-              </h2>
-              <p className="text-4xl text-gray-300 max-w-2xl mx-auto">
-                You know what I ain't gonna tell you sh*t.
-                Try it yourself!
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        <section className="py-20 px-6 bg-gradient-to-b from-transparent to-black/30">
-          <div className="max-w-7xl mx-auto">
-            <motion.h3
-              className="text-4xl font-bold mb-12 text-center jin-heading"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              Choose Your Arena
-            </motion.h3>
+      <main className="pt-24 relative">
+        <div className="relative z-0">
+          <section className="min-h-screen relative">
+            <FloatingIcons />
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {games.map((game) => (
-                <GameCard
-                  key={game.id}
-                  game={game}
-                  onClick={() => handleGameSelect(game.id)}
-                />
-              ))}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <h2 className="text-20xl font-bold mb-10 jin-heading">
+                  THE ULTIMATE GAMING EXPERIENCE
+                </h2>
+                <p className="text-4xl text-gray-300 max-w-2xl mx-auto">
+                  You know what I ain't gonna tell you sh*t.
+                  Try it yourself!
+                </p>
+              </motion.div>
             </div>
-          </div>
-        </section>
+          </section>
+
+          <section className="py-20 px-6 bg-gradient-to-b from-transparent to-black/30">
+            <div className="max-w-7xl mx-auto">
+              <motion.h3
+                className="text-4xl font-bold mb-12 text-center jin-heading"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+              >
+                Choose Your Arena
+              </motion.h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {games.map((game) => (
+                  <GameCard
+                    key={game.id}
+                    game={game}
+                    onClick={() => handleGameSelect(game.id)}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
       </main>
 
       <ComingSoon

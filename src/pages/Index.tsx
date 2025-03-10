@@ -3,8 +3,11 @@ import { motion } from 'framer-motion'
 import { GameCard } from '@/components/GameCard'
 import { ConnectWallet } from '@/components/ConnectWallet'
 import { FloatingIcons } from '@/components/FloatingIcons'
+import { LoginButton } from '@/components/LoginButton'
 import ComingSoon from '@/pages/ComingSoon'
 import { useNavigate } from 'react-router-dom'
+import { auth } from '@/lib/firebase'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 const games = [
   {
@@ -56,13 +59,18 @@ const Index = () => {
   const navigate = useNavigate();
   const [showComingSoon, setShowComingSoon] = useState(false)
   const [comingSoonTitle, setComingSoonTitle] = useState("")
+  const [user] = useAuthState(auth);
 
   const handleGameSelect = (gameId: number) => {
+    if (!user) {
+      alert('Please login to play!');
+      return;
+    }
+
     const game = games.find(g => g.id === gameId)
     if (game) {
       if (game.isAvailable) {
         setSelectedGame(gameId)
-        // Navigate to the game room or start the game
         navigate(`/game/${gameId}`)
       } else {
         setComingSoonTitle(game.title)
@@ -83,7 +91,10 @@ const Index = () => {
           >
             JinAI
           </motion.h1>
-          <ConnectWallet />
+          <div className="flex items-center gap-4">
+            <LoginButton />
+            <ConnectWallet />
+          </div>
         </div>
       </nav>
 

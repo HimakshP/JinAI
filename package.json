@@ -62,6 +62,8 @@
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
+    "react-firebase-hooks": "^5.1.1",
+    "firebase": "^10.x.x",
     "react-hook-form": "^7.53.0",
     "react-hot-toast": "^2.4.1",
     "react-resizable-panels": "^2.1.3",

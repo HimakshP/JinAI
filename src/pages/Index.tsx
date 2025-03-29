@@ -22,7 +22,7 @@ const games = [
     title: "God of War",
     description: "Test your expertise in Norse mythology and Kratos' epic journey.",
     image: "/gowr.jpg",
-    isAvailable: false
+    isAvailable: true
   },
   {
     id: 3,
@@ -114,8 +114,7 @@ const Index = () => {
                   THE ULTIMATE GAMING EXPERIENCE
                 </h2>
                 <p className="text-4xl text-gray-300 max-w-2xl mx-auto">
-                  You know what I ain't gonna tell you sh*t.
-                  Try it yourself!
+                The AI That Knows Every Game. Ask, Explore, Have Fun
                 </p>
               </motion.div>
             </div>

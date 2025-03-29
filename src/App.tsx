@@ -9,6 +9,7 @@ import GameRoom from "./pages/GameRoom";
 import ComingSoon from './pages/ComingSoon';
 import Login from './pages/Login';
 import { Container, Header, MessageList, Composer, ComposerInput, ComposerButton, WebchatProvider } from '@botpress/webchat';
+import GameRoom1 from "./pages/GameRoom1";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,9 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/game/:gameId" element={<GameRoom />} />
+            <Route path="/game/1" element={<GameRoom />} />
+            <Route path="/game/2" element={<GameRoom1 />} />
+
           </Routes>
         </TooltipProvider>
       </QueryClientProvider>

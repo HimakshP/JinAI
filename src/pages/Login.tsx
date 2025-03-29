@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendEmailVerification, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -11,7 +11,20 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const navigate = useNavigate();
+
+  // Check if user's email is verified
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsEmailVerified(user.emailVerified);
+      }
+    });
+    
+    return () => unsubscribe();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,22 +32,36 @@ const Login = () => {
 
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        if (!user.emailVerified) {
+          setError('Please verify your email before logging in.');
+          await auth.signOut();
+          return;
+        }
+        
         navigate('/');
       } else {
         if (password !== confirmPassword) {
           setError('Passwords do not match');
           return;
         }
-        await createUserWithEmailAndPassword(auth, email, password);
-        setShowSuccess(true);
+        
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Send verification email
+        await sendEmailVerification(user);
+        setVerificationSent(true);
+        
         setTimeout(() => {
-          setShowSuccess(false);
+          setVerificationSent(false);
           setIsLogin(true);
           setEmail('');
           setPassword('');
           setConfirmPassword('');
-        }, 3000);
+        }, 5000);
       }
     } catch (err: any) {
       setError(err.message);
@@ -46,6 +73,22 @@ const Login = () => {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       navigate('/');
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  const resendVerificationEmail = async () => {
+    try {
+      if (!auth.currentUser) {
+        // Try to sign in first to get the current user
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        await sendEmailVerification(userCredential.user);
+      } else {
+        await sendEmailVerification(auth.currentUser);
+      }
+      setVerificationSent(true);
+      setTimeout(() => setVerificationSent(false), 5000);
     } catch (err: any) {
       setError(err.message);
     }
@@ -100,6 +143,16 @@ const Login = () => {
 
           {error && (
             <p className="text-red-500 text-sm">{error}</p>
+          )}
+
+          {isLogin && error === 'Please verify your email before logging in.' && (
+            <button
+              type="button"
+              onClick={resendVerificationEmail}
+              className="text-blue-400 text-sm hover:underline"
+            >
+              Resend verification email
+            </button>
           )}
 
           <button
@@ -184,8 +237,34 @@ const Login = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+        {verificationSent && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="bg-jinblack p-6 rounded-lg shadow-xl max-w-sm mx-4 text-center"
+            >
+              <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Verification Email Sent!</h3>
+              <p className="text-gray-400">Please check your email and click the verification link before logging in.</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-export default Login; 
+export default Login;
